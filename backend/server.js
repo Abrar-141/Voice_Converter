@@ -16,7 +16,11 @@ const io = new Server(server, {
 });
 
 app.use(cors({ origin: [process.env.CLIENT_URL, process.env.ADMIN_URL] }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+
+app.use('/api/features', require('./src/routes/features'))
+app.use('/api/reviews', require('./src/routes/reviews'))
+app.use('/api/infosections', require('./src/routes/infosections'))
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
