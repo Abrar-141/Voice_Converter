@@ -2,16 +2,23 @@ import { useState, useEffect, useRef } from 'react'
 import { ComposableMap, Geographies, Geography, Marker, useMapContext } from 'react-simple-maps'
 import logo from '../services/pictures/Logo_App.png.jpg'
 import '../css/HomeScreen.css'
+import '../css/AboutSection.css'
 import {
-  Zap, Globe, Menu, X, ChevronRight, Play,
-  Lock, Radio, Moon, Sun
+  Zap, Globe, Globe2, Menu, X, ChevronRight, Play,
+  Lock, Radio, Moon, Sun, ShieldCheck, BrainCircuit, Sparkles
 } from 'lucide-react'
 
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
-function Navbar({ onSignIn, mode, setMode }) {
+function Navbar({ onSignIn, onSignUp, mode, setMode }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const links = ['Features', 'How it Works', 'App / Web', 'Security']
+  const links = [
+    { label: 'Features', id: 'features' },
+    { label: 'How it Works', id: 'how-it-works' },
+    { label: 'App / Web', id: 'app-web' },
+  ]
+
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -34,8 +41,8 @@ function Navbar({ onSignIn, mode, setMode }) {
 
         <ul className="vc-nav-links">
           {links.map(l => (
-            <li key={l}>
-              <a href={`#${l.toLowerCase().replace(/ \/ /g,'-').replace(/ /g,'-')}`}>{l}</a>
+            <li key={l.label}>
+              <a href={`#${l.id}`} onClick={(e) => { e.preventDefault(); scrollTo(l.id) }}>{l.label}</a>
             </li>
           ))}
         </ul>
@@ -49,7 +56,12 @@ function Navbar({ onSignIn, mode, setMode }) {
               <Sun size={14} />
             </button>
           </div>
-          <button className="vc-btn-signin" onClick={onSignIn}>Sign In</button>
+          <button
+            onClick={onSignUp}
+            className="vc-btn-signup"
+          >
+            Sign Up
+          </button>
         </div>
 
         <button className="vc-hamburger" onClick={() => setOpen(!open)}>
@@ -59,8 +71,15 @@ function Navbar({ onSignIn, mode, setMode }) {
 
       {open && (
         <div className="vc-mobile-menu">
-          {links.map(l => <a key={l} href="#" onClick={() => setOpen(false)}>{l}</a>)}
-          <button className="vc-btn-signin" onClick={onSignIn}>Sign In</button>
+          {links.map(l => (
+            <a key={l.label} href={`#${l.id}`} onClick={() => { setOpen(false); scrollTo(l.id) }}>{l.label}</a>
+          ))}
+          <button
+            onClick={onSignUp}
+            className="vc-btn-signup-full"
+          >
+            Sign Up
+          </button>
         </div>
       )}
     </nav>
@@ -109,7 +128,7 @@ function WaveformMockup() {
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero({ onGetStarted }) {
   return (
-    <section className="vc-hero" id="features">
+    <section className="vc-hero" id="hero">
       <div className="vc-hero-left">
         <div className="vc-hero-badge">🎙 Real-Time AI Translation</div>
         <h1 className="vc-hero-heading">
@@ -509,7 +528,7 @@ function Simulator() {
   }
 
   return (
-    <section className="sim-section">
+    <section className="sim-section" id="features">
       {/* Header */}
       <div className="sim-header">
         <span className="sim-badge">⚡ EXPERIENCE THE LIVE DUB</span>
@@ -636,6 +655,105 @@ function Reviews() {
   )
 }
 
+// ─── ABOUT SECTION ──────────────────────────────────────────────────────────
+const highlights = [
+  {
+    icon: Zap,
+    title: 'Real-Time Translation',
+    desc: 'Speak naturally and hear the translation instantly — powered by low-latency AI built for live conversation.',
+  },
+  {
+    icon: Globe2,
+    title: '20+ Languages',
+    desc: 'From Hindi and Urdu to Spanish and Japanese — communicate fluently across the globe.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'End-to-End Encrypted',
+    desc: 'Your voice is processed on the fly and never stored. Privacy is built into every single call.',
+  },
+  {
+    icon: BrainCircuit,
+    title: 'Context-Aware AI',
+    desc: 'Our model understands meaning, slang and tone — not just words — for truly natural dialogue.',
+  },
+]
+
+function AboutSection() {
+  return (
+    <section id="app-web" className="about-section">
+
+      {/* ambient glow blobs — theme-aware */}
+      <div className="about-blob about-blob-left" />
+      <div className="about-blob about-blob-right" />
+
+      <div className="about-inner">
+
+        {/* label */}
+        <div className="about-label-row">
+          <span className="about-badge">
+            <Sparkles size={14} /> About Us
+          </span>
+        </div>
+
+        {/* heading */}
+        <h2 className="about-title">
+          Bridging Languages,{' '}
+          <span className="about-title-accent">
+            One Conversation
+          </span>{' '}
+          at a Time
+        </h2>
+
+        {/* description */}
+        <p className="about-desc">
+          Voice Converter is a real-time AI voice translation platform built to erase language
+          barriers from every call. Speak in your own language, and let our intelligent engine
+          translate your voice into your listener's language — with natural tone, sub-second speed
+          and complete privacy. Whether it's a business call across the world or a chat with
+          someone new, Voice Converter makes every conversation feel effortless.
+        </p>
+
+        {/* stats row */}
+        <div className="about-stats">
+          {[
+            { icon: Radio, value: '99.4%', label: 'Accuracy' },
+            { icon: Globe2, value: '20+', label: 'Languages' },
+            { icon: Zap, value: '<1s', label: 'Latency' },
+          ].map((s, i) => (
+            <div key={i} className="about-stat">
+              <span className="about-stat-icon">
+                <s.icon size={18} />
+              </span>
+              <div className="about-stat-text">
+                <div className="about-stat-value">{s.value}</div>
+                <div className="about-stat-label">{s.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* highlight cards */}
+        <div className="about-cards">
+          {highlights.map((h, i) => (
+            <div key={i} className="about-card-frame">
+              <div className="about-card-inner">
+                <div className="about-card-icon">
+                  <h.icon size={20} />
+                </div>
+                <h3 className="about-card-title">{h.title}</h3>
+                <p className="about-card-desc">{h.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -653,26 +771,21 @@ function Footer() {
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
-export default function HomeScreen() {
-  const [authTab, setAuthTab] = useState('signin')
+export default function HomeScreen({ onSignIn, onSignUp }) {
   const [mode, setMode] = useState('dark')
-
-  const scrollToAuth = (tab = 'signin') => {
-    setAuthTab(tab)
-    document.getElementById('security')?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   return (
     <div className="vc-root">
       <div className="vc-mesh-blob top" />
       <div className="vc-mesh-blob bottom" />
-      <Navbar onSignIn={() => scrollToAuth('signin')} mode={mode} setMode={setMode} />
-      <Hero onGetStarted={() => scrollToAuth('signup')} />
+      <Navbar onSignIn={onSignIn} onSignUp={onSignUp} mode={mode} setMode={setMode} />
+      <Hero onGetStarted={onSignUp} />
       <Metrics />
       <Features />
       <WorldMap />
       <Simulator />
       <Reviews />
+      <AboutSection />
       <Footer />
     </div>
   )

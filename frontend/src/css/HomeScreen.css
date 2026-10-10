@@ -138,6 +138,38 @@
 }
 .vc-btn-signin:hover { box-shadow: 0 0 18px var(--accent-glow); transform: translateY(-1px); }
 
+/* Navbar Sign Up button (desktop + mobile) */
+.vc-btn-signup {
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #06b6d4, #a855f7);
+  box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.25);
+  transition: filter 0.2s, transform 0.2s;
+}
+.vc-btn-signup:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+.vc-btn-signup-full {
+  width: 100%;
+  padding: 0.625rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #06b6d4, #a855f7);
+  box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.25);
+  transition: filter 0.2s, transform 0.2s;
+}
+.vc-btn-signup-full:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
 .vc-hamburger { display: none; background: none; border: none; color: var(--nav-text); cursor: pointer; margin-left: auto; }
 
 .vc-mobile-menu {
@@ -956,7 +988,7 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .vc-nav-links, .vc-btn-signin { display: none; }
+  .vc-nav-links, .vc-btn-signin, .vc-btn-signup { display: none; }
   .vc-hamburger { display: block; }
   .vc-hero { grid-template-columns: 1fr; padding: 3rem 1.2rem 2rem; text-align: center; }
   .vc-bullets { align-items: center; }

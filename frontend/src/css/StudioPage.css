@@ -1,0 +1,151 @@
+/* ═══════════════════════════════════════════════════════
+   StudioPage — Audio & Voice Studio (File Dubbing & Playground)
+   ═══════════════════════════════════════════════════════ */
+
+.vs-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+.vs-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(130px); }
+.vs-orb-1 { top: -160px; left: -160px; width: 480px; height: 480px; background: rgba(59,130,246,0.18); }
+.vs-orb-2 { bottom: -160px; right: -160px; width: 480px; height: 480px; background: rgba(147,51,234,0.15); }
+
+/* layout */
+.vs-wrap { position: relative; z-index: 1; max-width: 48rem; margin: 0 auto; padding: 1.5rem; min-height: 100vh; display: flex; flex-direction: column; gap: 1.5rem; }
+.vs-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.vs-back {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.5rem 0.9rem; border-radius: 0.6rem;
+  font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+  border: 1px solid var(--border); background: var(--bg-input);
+  cursor: pointer; transition: all 0.2s;
+}
+.vs-back:hover { color: var(--text); border-color: var(--accent-border); }
+.vs-chip {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.75rem; font-weight: 600; color: var(--accent);
+  border: 1px solid var(--accent-border); background: var(--accent-soft);
+  padding: 0.35rem 0.8rem; border-radius: 999px;
+}
+
+/* header */
+.vs-head { margin-top: 0.5rem; }
+.vs-title { font-size: 2rem; font-weight: 800; line-height: 1.15; }
+.vs-title span {
+  background: linear-gradient(90deg, #22d3ee, #a855f7);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.vs-sub { margin-top: 0.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; max-width: 40rem; }
+
+/* glass card */
+.vs-card { border-radius: 1.25rem; border: 1px solid var(--border); background: var(--bg-card); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.vs-card-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0; }
+
+/* dropzone */
+.vs-drop {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  padding: 2.5rem 1.5rem; border-radius: 1rem;
+  border: 2px dashed var(--border); background: var(--bg-input);
+  cursor: pointer; transition: all 0.2s; color: var(--text-muted);
+}
+.vs-drop:hover, .vs-drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.vs-drop-main { font-size: 0.95rem; font-weight: 600; }
+.vs-drop-sub { font-size: 0.78rem; }
+
+/* selected file */
+.vs-file {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.9rem 1rem; border-radius: 0.9rem;
+  border: 1px solid var(--accent-border); background: var(--accent-soft);
+}
+.vs-file-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.vs-file-name { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vs-file-meta { font-size: 0.75rem; color: var(--text-muted); }
+.vs-file-x {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-input); color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.vs-file-x:hover { color: #ef4444; border-color: rgba(239,68,68,0.4); }
+
+/* field + button */
+.vs-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.vs-field label { display: flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+.vs-field select {
+  padding: 0.65rem 0.8rem; border-radius: 0.7rem;
+  border: 1px solid var(--border); background: var(--bg-input);
+  color: var(--text); font-size: 0.9rem; outline: none;
+}
+.vs-field select:focus { border-color: var(--accent-border); }
+.vs-start {
+  display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+  padding: 0.9rem; border-radius: 0.8rem; border: none;
+  font-size: 1rem; font-weight: 700; color: #fff;
+  background: linear-gradient(90deg, var(--accent), #6d28d9);
+  cursor: pointer; transition: filter 0.2s, transform 0.2s;
+}
+.vs-start:hover:not(:disabled) { filter: brightness(1.12); transform: translateY(-1px); }
+.vs-start:disabled { opacity: 0.5; cursor: not-allowed; }
+.vs-hint { font-size: 0.78rem; color: var(--text-dim); }
+
+/* progress */
+.vs-progress { height: 10px; border-radius: 999px; background: var(--bg-input); border: 1px solid var(--border); overflow: hidden; }
+.vs-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), #a855f7); transition: width 0.1s; }
+.vs-progress-note { margin: 0; font-size: 0.78rem; color: var(--text-muted); text-align: center; }
+
+/* personas */
+.vs-personas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+@media (min-width: 768px) { .vs-personas { grid-template-columns: repeat(4, 1fr); } }
+.vs-persona {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  padding: 1rem 0.8rem; border-radius: 1rem; text-align: center;
+  border: 1px solid var(--border); background: var(--bg-input); color: var(--text);
+  cursor: pointer; transition: all 0.2s;
+}
+.vs-persona:hover { border-color: var(--accent-border); }
+.vs-persona.on { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 16px var(--accent-glow); }
+.vs-persona-emoji { font-size: 1.6rem; }
+.vs-persona-name { font-size: 0.82rem; font-weight: 700; }
+.vs-persona-desc { font-size: 0.68rem; color: var(--text-muted); line-height: 1.4; }
+
+/* sliders */
+.vs-slider-row { display: flex; flex-direction: column; gap: 0.5rem; }
+.vs-slider-labels { display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+.vs-slider-labels strong { color: var(--accent); }
+.vs-range { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.vs-presets { display: flex; gap: 0.5rem; }
+.vs-preset {
+  padding: 0.4rem 0.9rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-input); color: var(--text);
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.vs-preset:hover { border-color: var(--accent-border); }
+.vs-preset.on { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+
+/* preview wave */
+.vs-wave { display: flex; align-items: center; justify-content: center; gap: 4px; height: 40px; }
+.vs-wbar { width: 4px; border-radius: 999px; background: var(--accent); height: 30%; animation: vsBar 1s ease-in-out infinite; }
+@keyframes vsBar { 0%, 100% { height: 20%; opacity: 0.4; } 50% { height: 100%; opacity: 1; } }
+
+/* export hub */
+.vs-output {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.9rem 1rem; border-radius: 0.9rem;
+  border: 1px solid var(--accent-border); background: var(--accent-soft);
+}
+.vs-output-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.vs-output-name { font-size: 0.9rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vs-output-meta { font-size: 0.75rem; color: var(--text-muted); }
+.vs-dl {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.8rem; border-radius: 0.8rem; border: none;
+  font-size: 0.95rem; font-weight: 700; color: #fff;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  cursor: pointer; transition: filter 0.2s;
+}
+.vs-dl:hover { filter: brightness(1.12); }

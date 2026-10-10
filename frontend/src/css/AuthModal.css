@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════
+   AuthModal.jsx
+   Card · brand · heading · sliding tab switcher · success overlay
+   Shared pieces (navbar, orbs, inputs, animations) live in AuthCard.css
+   ═══════════════════════════════════════════════════════ */
+
+/* centered glass card */
+.authm-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 1.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 640px) {
+  .authm-card { padding: 2rem; }
+}
+
+/* brand row */
+.authm-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.authm-brand-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10);
+}
+.authm-brand-title {
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+.authm-brand-accent { color: #22d3ee; }
+
+/* heading + subtitle */
+.authm-title {
+  margin-top: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.authm-sub {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+/* sliding tab switcher */
+.authm-tabs {
+  position: relative;
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.authm-tab-indicator {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  height: calc(100% - 8px);
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #06b6d4, #4f46e5);
+  box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.25);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.authm-tab {
+  position: relative;
+  z-index: 10;
+  padding: 0.5rem 0;
+  border: none;
+  background: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.authm-tab:hover { color: #e2e8f0; }
+.authm-tab.is-active { color: #ffffff; }
+.authm-tab:focus-visible { outline: none; }
+
+/* active login / signup view */
+.authm-body { margin-top: 1.5rem; }
+
+/* success overlay content (animation comes from AuthCard.css) */
+.authm-success-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+.authm-success-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.authm-success-text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}

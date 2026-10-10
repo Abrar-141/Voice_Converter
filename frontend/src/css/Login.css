@@ -1,0 +1,13 @@
+/* ═══════════════════════════════════════════════════════
+   Login.jsx
+   Spinner for the "Signing in..." submit state.
+   Fields, checkbox, social buttons reuse AuthCard.css
+   ═══════════════════════════════════════════════════════ */
+
+.auth-spin {
+  animation: authSpin 1s linear infinite;
+}
+
+@keyframes authSpin {
+  to { transform: rotate(360deg); }
+}
