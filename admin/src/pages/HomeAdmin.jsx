@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Moon, Sun, LayoutGrid, Settings, MessageSquare } from 'lucide-react'
+import { Moon, Sun, LayoutGrid, Settings, MessageSquare, Image } from 'lucide-react'
 import '../css/HomeAdmin.css'
 import ReviewsAdmin from './ReviewsAdmin'
+import Home2Admin from './Home2Admin'
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
@@ -88,6 +89,7 @@ export default function HomeAdmin() {
           {[
             { icon: <LayoutGrid size={15} />, label: 'Features' },
             { icon: <MessageSquare size={15} />, label: 'Reviews' },
+            { icon: <Image size={15} />, label: 'Home2 Admin' },
             { icon: <Settings size={15} />, label: 'Settings' },
           ].map(item => (
             <button
@@ -216,6 +218,8 @@ export default function HomeAdmin() {
           )}
 
 {activePage === 'Reviews' && <ReviewsAdmin />}
+
+{activePage === 'Home2 Admin' && <Home2Admin />}
 
           {/* ── SETTINGS PAGE ── */}
           {activePage === 'Settings' && (

@@ -29,6 +29,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use('/api/features', require('./src/routes/features'))
 app.use('/api/reviews', require('./src/routes/reviews'))
 app.use('/api/infosections', require('./src/routes/infosections'))
+app.use('/api/homepictures', require('./src/routes/homepictures'))
 app.use('/api/auth', require('./src/routes/auth'))
 
 app.get('/health', (req, res) => {

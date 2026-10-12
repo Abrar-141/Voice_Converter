@@ -174,3 +174,68 @@ body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-fa
   .adm-card-body { grid-template-columns: 1fr; }
   .adm-img-panel { border-right: none; border-bottom: 1px solid var(--border); }
 }
+
+/* ── Home2Admin — slideshow pictures ── */
+.h2a-spec {
+  display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+  padding: 1.5rem;
+}
+@media (min-width: 800px) { .h2a-spec { grid-template-columns: 1.15fr 1fr; align-items: center; } }
+
+.h2a-frame-preview { display: flex; flex-direction: column; gap: 0.5rem; }
+.h2a-frame-inner {
+  position: relative; width: 100%; height: 120px;
+  border-radius: 12px; overflow: hidden;
+  background:
+    linear-gradient(120deg, rgba(6,182,212,0.18), rgba(168,85,247,0.18)),
+    repeating-linear-gradient(45deg, rgba(128,128,128,0.08) 0 10px, transparent 10px 20px);
+  border: 1px solid var(--accent-border);
+  display: flex; align-items: center; justify-content: center;
+}
+.h2a-frame-chip {
+  background: var(--accent); color: #fff;
+  padding: 0.3rem 0.85rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+.h2a-frame-preview .adm-img-hint { text-align: center; }
+
+.h2a-spec-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.h2a-spec-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg-input); font-size: 0.8rem;
+}
+.h2a-spec-key { color: var(--text-muted); flex-shrink: 0; }
+.h2a-spec-val { font-weight: 700; color: var(--text); text-align: right; }
+.h2a-spec-val.hl { color: var(--accent); }
+
+.h2a-note {
+  padding: 0.85rem 1.5rem; border-top: 1px solid var(--border);
+  font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; margin: 0;
+}
+.h2a-note code {
+  background: var(--accent-soft); color: var(--accent);
+  padding: 0.05rem 0.4rem; border-radius: 5px; font-size: 0.74rem;
+}
+
+.h2a-drop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.55rem; padding: 2.4rem 1rem; text-align: center;
+  border: 1.5px dashed var(--accent-border); border-radius: 16px;
+  background: var(--accent-soft); cursor: pointer; transition: all 0.2s;
+}
+.h2a-drop:hover, .h2a-drop.drag {
+  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+  transform: translateY(-1px);
+}
+.h2a-drop-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+.h2a-drop-title { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.h2a-drop-sub { font-size: 0.76rem; color: var(--text-muted); }
+.h2a-drop.disabled { opacity: 0.55; pointer-events: none; }

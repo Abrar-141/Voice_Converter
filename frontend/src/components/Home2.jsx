@@ -1,19 +1,47 @@
-import { useState } from 'react'
-import { Globe2, Zap, ShieldCheck, Play, Mic, LogOut, Moon, Sun, Star, Settings, ChevronDown } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { LogOut, Moon, Sun, Settings, ChevronDown } from 'lucide-react'
 import logo from '../services/pictures/Logo_App.png.jpg'
+import home01 from '../services/pictures/home01.png.jpg'
+import home02 from '../services/pictures/home02.png.jpg'
+import home03 from '../services/pictures/home03.png.jpg'
 import '../css/Home2.css'
 
-const stats = [
-  { icon: Globe2, title: '20+ Languages', desc: 'Translate across the globe in real time.' },
-  { icon: Zap, title: 'Ultra Low Latency', desc: 'Sub-second responses powered by edge AI.' },
-  { icon: ShieldCheck, title: 'Private & Secure', desc: 'End-to-end encrypted. Zero data stored.' },
-  { icon: Star, title: '100 Points', desc: 'Member points — earn more with every call you make.' },
+/* fallback pictures — shown until the admin uploads pictures from the database */
+const DEFAULT_SLIDES = [
+  { src: home01, alt: 'Voice Converter — real-time translation' },
+  { src: home02, alt: 'Voice Converter — voice studio' },
+  { src: home03, alt: 'Voice Converter — meetings & chat' },
+  { src: logo, alt: 'Voice Converter — app' },
 ]
 
 /* Post-login home / dashboard page */
 export default function Home2({ onLogout, user, onOpenCall, onOpenMeeting, onOpenChat, onOpenStudio, onOpenSettings }) {
   const [mode, setMode] = useState('dark')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const [slides, setSlides] = useState(DEFAULT_SLIDES)
+
+  /* load slideshow pictures from the database (uploaded via the admin panel) */
+  useEffect(() => {
+    const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+    fetch(`${API}/api/homepictures`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSlides(data.map((p) => ({ src: p.image, alt: p.alt || 'Voice Converter' })))
+          setIndex(0)
+        }
+      })
+      .catch(() => {}) /* keep local fallback if backend is down */
+  }, [])
+
+  /* auto-change pictures every 3 seconds (pauses on hover) */
+  useEffect(() => {
+    if (paused || slides.length === 0) return
+    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 3000)
+    return () => clearInterval(id)
+  }, [paused, slides.length])
   const initial = user?.name ? user.name.charAt(0).toUpperCase() : 'A'
 
   const toggleMode = (m) => {
@@ -103,46 +131,35 @@ export default function Home2({ onLogout, user, onOpenCall, onOpenMeeting, onOpe
         </div>
       </nav>
 
-      {/* main */}
+      {/* main — auto-changing picture slideshow box */}
       <main className="home2-main">
-        <div className="home2-badge">
-          <Mic size={14} /> Dashboard
-        </div>
-
-        <h1 className="home2-title">
-          Welcome back{user?.name ? `, ${user.name}` : ''}{' '}
-          <span className="home2-title-accent">👋</span>
-        </h1>
-        <p className="home2-sub">
-          You're all set. Start a real-time translated voice call and break language barriers instantly.
-        </p>
-
-        {/* CTA card */}
-        <div className="home2-cta">
-          <div className="home2-cta-inner">
-            <div>
-              <h2 className="home2-cta-title">Start a Voice Call</h2>
-              <p className="home2-cta-desc">Connect with anyone, in any language, in real time.</p>
-            </div>
-            <button className="home2-cta-btn" onClick={onOpenCall}>
-              <Play size={18} /> New Call
-            </button>
+        <div
+          className="home2-slider"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <div className="home2-slider-window">
+            {slides.map((s, i) => (
+              <img
+                key={i}
+                src={s.src}
+                alt={s.alt}
+                draggable={false}
+                className={`home2-slide ${i === index ? 'active' : ''}`}
+              />
+            ))}
+            <div className="home2-slider-shade" />
           </div>
-        </div>
-
-        {/* stat cards */}
-        <div className="home2-stats">
-          {stats.map((s, i) => (
-            <div key={i} className="home2-stat">
-              <div className="home2-stat-inner">
-                <div className="home2-stat-icon">
-                  <s.icon size={20} />
-                </div>
-                <h3 className="home2-stat-title">{s.title}</h3>
-                <p className="home2-stat-desc">{s.desc}</p>
-              </div>
-            </div>
-          ))}
+          <div className="home2-dots">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                aria-label={`Show picture ${i + 1}`}
+                className={`home2-dot ${i === index ? 'active' : ''}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
         </div>
       </main>
     </div>
